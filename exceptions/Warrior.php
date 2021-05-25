@@ -3,7 +3,6 @@
 
 class Warrior extends Character
 {
-
     public function __construct($name)
     {
         parent::__construct($name);
@@ -15,29 +14,41 @@ class Warrior extends Character
         $this->setAgility(8);
         $this->setWit(3);
     }
+
+    /**
+     * @throws WeaponException
+     */
     public function attack($value)
     {
-        if ($value == "hammer" || $value == "sword"){
+        $role=true;
+        try {
+            if (empty($value)){
+                $role=false;
+                throw new WeaponException($this->getName());
+            }
+            if ($value != "hammer" && $value != "sword") {
+                $role=false;
+                throw new WeaponException($this->getName()." ".$value." ".$this->getRPGClass());
+            }
+        }catch (WeaponException $e)
+        {
+            throw $e;
+        }
+        if ($role===true){
             $this->unsheathe();
             echo $this->getName().": Rrrrrrrrr....\n";
             echo $this->getName().": I'll crush you with my ".$value."!\n";
-        }else{
-            return null;
         }
+
     }
 
-    /**
-     * @throws Exception
-     */
-    public function tryToAttack($arm)
+    public function tryToAttack($value)
     {
-        $rpgclass=$this->getRPGClass();
-
         try {
-            WeaponException::exception($arm,$rpgclass);
-        }catch(Exception $e){
-            $this->attack($arm);
+            $this->attack($value);
+        }catch (Exception $e){
+            echo $e->getMessage();
         }
     }
-
 }
+

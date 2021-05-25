@@ -108,8 +108,16 @@ class Character{
 $warrior = new Warrior("Jean-Luc");
 $mage = new Mage("Robert");
 
+//$warrior->moveForward();
+//$mage->moveForward();
 
+$warrior->tryToAttack("screwdriver");
+$mage->tryToAttack("hammer");
 $warrior->tryToAttack("hammer");
-$warrior->tryToAttack("tata");
 
+try {
+    $mage->attack("");
+}catch (WeaponException $e){
+    echo $e->getMessage();
+}
 
